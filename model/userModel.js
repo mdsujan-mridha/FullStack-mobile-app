@@ -45,6 +45,8 @@ const userSchema = new mongoose.Schema({
     resetPasswordExpire: Date,
 });
 
+userSchema.index({ email: 1 }, { unique: true });
+
 
 // save hash password on backend 
 userSchema.pre("save", async function (next) {
@@ -52,7 +54,7 @@ userSchema.pre("save", async function (next) {
         next();
     }
 
-    this.password = await bcrypt.hash(this.password, 10);
+    this.password = await bcrypt.hash(this.password, 12);
 });
 
 // send token 

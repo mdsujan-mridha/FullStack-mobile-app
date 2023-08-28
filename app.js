@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const bodyParser = require('body-parser');
+const errorMiddleware = require("./middleware/error");
 const app = express();
 
 
@@ -21,5 +22,6 @@ const user = require("./routes/userRoute");
 
 app.use("/api/v1", user);
 
+app.use(errorMiddleware);
 
 module.exports = app;
