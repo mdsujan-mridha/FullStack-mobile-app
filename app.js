@@ -9,9 +9,15 @@ const app = express();
 
 
 // middleware
-
+const corsOptions = {
+    origin:'*',
+    'Content-Type': 'Authorization',
+    "Content-type":"application/json",
+    credentials: true,            //access-control-allow-credentials:true
+    optionSuccessStatus: 200
+}
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
 
