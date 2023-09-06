@@ -10,7 +10,7 @@ const app = express();
 
 // middleware
 const corsOptions = {
-    origin:'*',
+    origin:'http://localhost:19006',
     'Content-Type': 'Authorization',
     "Content-type":"application/json",
     credentials: true,            //access-control-allow-credentials:true
