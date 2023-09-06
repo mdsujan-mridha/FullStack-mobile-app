@@ -4,7 +4,6 @@ const sendToken = require("../utils/jwtToken");
 const ErrorHandler = require("../utils/ErrorHandler");
 
 exports.register = catchAsyncErrors(async (req, res, next) => {
-
     const { name, email, password } = req.body;
     const user = await User.create({
         name, email, password,
@@ -43,7 +42,6 @@ exports.login = catchAsyncErrors(async (req, res, next) => {
 exports.logout = catchAsyncErrors(async (req, res, next) => {
     res.cookie("token", null, {
         expires: new Date(Date.now()),
-        httpOnly: true,
     });
 
     res.status(200).json({
