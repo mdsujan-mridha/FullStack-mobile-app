@@ -11,7 +11,13 @@ const app = express();
 // middleware
 
 app.use(express.json());
-app.use(cors());
+app.use(cors(
+    {
+        credentials: true,
+        methods: ["GET", "POST", "PUT", "DELETE"],
+        // origin: [process.env.FRONTEND_URI_1, process.env.FRONTEND_URI_2],
+      }
+));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
 
