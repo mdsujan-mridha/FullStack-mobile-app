@@ -38,6 +38,14 @@ const productSchema = new mongoose.Schema({
         maxLength: [4, "Stock cannot exceed 4 characters"],
         default: 1,
     },
+    location: {
+        type: String,
+        required: [true, 'Enter you location'],
+    },
+    phoneNumber: {
+        type: String,
+        required: [true, 'Enter you contact']
+    },
     user: {
         type: mongoose.Schema.ObjectId,
         ref: "User",
