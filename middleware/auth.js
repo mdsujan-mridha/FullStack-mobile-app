@@ -4,6 +4,8 @@ const catchAsyncErrors = require("./catchAsyncErrors");
 const User = require("../model/userModel");
 const ErrorHandler = require("../utils/ErrorHandler");
 
+//  is authenticate user or not 
+
 exports.isAuthenticatedUser = catchAsyncErrors(async (req, res, next) => {
 
     const { token } = req.cookies;
@@ -12,10 +14,12 @@ exports.isAuthenticatedUser = catchAsyncErrors(async (req, res, next) => {
     }
     const decodedData = jwt.verify(token, process.env.JWT_SECRET);
 
-    req.user = await User.findById(decodedData._id);
+    req.user = await User.findById(decodedData.id);
+
     next()
 
-})
+
+});
 
 // authorizeRoles 
 exports.authorizeRoles = (...roles) => {

@@ -11,19 +11,22 @@ const app = express();
 // middleware
 
 app.use(express.json());
-app.use(cors(
-    {
-        credentials: true,
-        methods: ["GET", "POST", "PUT", "DELETE"],
-        // origin: [process.env.FRONTEND_URI_1, process.env.FRONTEND_URI_2],
-      }
-));
+const corsOptions = {
+  origin: 'http://localhost:3000',
+  'Content-Type': 'Authorization',
+  "Content-type": "application/json",
+  credentials: true,            //access-control-allow-credentials:true
+  optionSuccessStatus: 200
+}
+app.use(cors(corsOptions));
+
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // config with  dotenv
 dotenv.config({ path: "./config/config.env" });
-
+// todo 
+const todo = require("./routes/todoRouter");
 // user 
 const user = require("./routes/userRoute");
 // product 
@@ -31,11 +34,14 @@ const product = require("./routes/productRouter");
 // order 
 const order = require("./routes/orderRouter");
 // user 
+
 app.use("/api/v1", user);
 // product 
 app.use("/api/v1", product);
 // order 
 app.use("/api/v1", order);
+// todo 
+app.use("/api/v1", todo);
 // custom middleware 
 app.use(errorMiddleware);
 
