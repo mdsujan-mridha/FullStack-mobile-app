@@ -42,8 +42,8 @@ exports.getAllTodos = catchAsyncErrors(async (req, res, next) => {
 // my todo 
 // get logged user order 
 exports.getMyTodo = catchAsyncErrors(async (req, res, next) => {
-    // const todos = await Todo.find({ user: req.user._id });
-    const todos = await Todo.find().populate('user', '_id').exec();
+    const todos = await Todo.find({ user: req.user._id });
+    // const todos = await Todo.find().populate('user', '_id').exec();
     if (!todos) {
         return next(new ErrorHandler("No collection found for you", 404))
     }
