@@ -39,6 +39,19 @@ exports.getAllTodos = catchAsyncErrors(async (req, res, next) => {
 
 });
 
+// my todo 
+// get logged user order 
+exports.getMyTodo = catchAsyncErrors(async (req, res, next) => {
+    const todos = await Todo.find({ user: req.user._id });
+    if (!todos) {
+        return next(new ErrorHandler("No collection found for you", 404))
+    }
+    res.status(200).json({
+        success: true,
+        todos,
+    })
+});
+
 // get todo details
 exports.getTodoDetails = catchAsyncErrors(async (req, res, next) => {
     const todo = await Todo.findById(req.params.id);

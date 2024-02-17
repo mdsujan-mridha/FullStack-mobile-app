@@ -2,10 +2,28 @@
 const catchAsyncErrors = require("../middleware/catchAsyncErrors")
 const Product = require("../model/productModel");
 const ApiFeatures = require("../utils/ApiFeatures");
+const cloudinary = require("cloudinary");
 
 // create product 
 exports.createProduct = catchAsyncErrors(async (req, res, next) => {
-
+    let images = [];
+    if (typeof req.body.images === "string") {
+        images.push(req.body.images);
+    } else {
+        images = req.body.images;
+    }
+    const imageLink = [];
+    for (let i = 0; i < images.length; i++) {
+        const result = await cloudinary.v2.uploader.upload(images[i], {
+            folder: "products",
+        });
+        imageLink.push({
+            public_id: result.public_id,
+            url: result.secure_url,
+        });
+    }
+    req.body.images = imageLink;
+    req.body.user = req.user.id;
     const product = await Product.create(req.body);
 
     res.status(201).json({

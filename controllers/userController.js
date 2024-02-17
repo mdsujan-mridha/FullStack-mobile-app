@@ -3,14 +3,20 @@ const User = require("../model/userModel");
 const sendToken = require("../utils/jwtToken");
 const ErrorHandler = require("../utils/ErrorHandler");
 const sendEmail = require("../utils/sendEmail");
+const cloudinary = require('cloudinary')
 // register 
 exports.register = catchAsyncErrors(async (req, res, next) => {
+    const mycloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
+        folder: "avater",
+        width: 150,
+        crop: "scale",
+    });
     const { name, email, password } = req.body;
     const user = await User.create({
         name, email, password,
         avatar: {
-            public_id: "sample_id",
-            url: "sample_url",
+            public_id: mycloud.public_id,
+            url: mycloud.secure_url,
         }
     });
     sendToken(user, 201, res);
@@ -54,7 +60,6 @@ exports.logout = catchAsyncErrors(async (req, res, next) => {
 // get user details 
 exports.getUserDetails = catchAsyncErrors(async (req, res, next) => {
     const user = await User.findById(req.user.id);
-
     res.status(200).json({
         success: true,
         user,
@@ -214,4 +219,39 @@ exports.deleteUser = catchAsyncErrors(async (req, res, next) => {
         success: true,
         message: "user deleted Successfully",
     })
-})
+});
+
+// update profile 
+
+exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
+    const newUserData = {
+        name: req.body.name,
+        email: req.body.email,
+    };
+
+    //  add cloudinary 
+    if (req.body.avatar !== "") {
+        const user = await User.findById(req.user.id);
+        const imageId = user.avatar.public_id;
+        await cloudinary.v2.uploader.destroy(imageId);
+        const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
+            folder: "avater",
+            width: 150,
+            crop: "scale",
+        });
+        newUserData.avatar = {
+            public_id: myCloud.public_id,
+            url: myCloud.secure_url,
+        };
+    }
+    const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
+        new: true,
+        runValidators: true,
+        useFindAndModify: false
+    });
+    res.status(200).json({
+        success: true,
+        user,
+    })
+
+});
