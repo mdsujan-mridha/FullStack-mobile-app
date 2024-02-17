@@ -8,7 +8,8 @@ const {
     getTodoDetails,
     updateTodo,
     deleteTodo,
-    getAllTodoAdmin
+    getAllTodoAdmin,
+    getMyTodo
 } = require('../controllers/todoController');
 const { isAuthenticatedUser, authorizeRoles } = require('../middleware/auth');
 
@@ -19,6 +20,8 @@ router.route("/todo/new").post(isAuthenticatedUser, createTodo);
 router.route("/todos").get(isAuthenticatedUser, getAllTodos);
 // get a single todo
 router.route("/todo/:id").get(isAuthenticatedUser, getTodoDetails);
+// get logged user todo 
+router.route("/my/todo").get(isAuthenticatedUser, getMyTodo);
 // update to 
 router.route("/todo/:id").put(isAuthenticatedUser, updateTodo);
 // deleteTodo
