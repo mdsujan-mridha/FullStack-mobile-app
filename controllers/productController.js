@@ -9,9 +9,9 @@ const { getDataUri } = require("../utils/DataUri");
 exports.createProduct = catchAsyncErrors(async (req, res, next) => {
 
     const { productName, description, price, quantity, phoneNumber, location, category } = req.body;
-
-    // if (!req.file) return next(new ErrorHandler("Please add image", 400));
     console.log(req.file);
+    if (!req.file) return next(new ErrorHandler("Please add image", 400));
+    
     const file = getDataUri(req.file);
     const myCloud = await cloudinary.v2.uploader.upload(file.content);
     const image = {
