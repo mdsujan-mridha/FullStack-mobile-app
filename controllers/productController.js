@@ -6,30 +6,31 @@ const cloudinary = require("cloudinary");
 
 // create product 
 exports.createProduct = catchAsyncErrors(async (req, res, next) => {
-    let images = [];
-    if (typeof req.body.images === "string") {
-        images.push(req.body.images);
-    } else {
-        images = req.body.images;
-    }
-    const imageLink = [];
-    for (let i = 0; i < images?.length; i++) {
-        const result = await cloudinary.v2.uploader.upload(images[i], {
-            folder: "products",
-        });
-        imageLink.push({
-            public_id: result.public_id,
-            url: result.secure_url,
-        });
-    }
-    req.body.images = imageLink;
-    req.body.user = req.user.id;
-    console.log(req.body);
-    const product = await Product.create(req.body);
 
+    const { productName, description, price, quantity, phoneNumber, location, category } = req.body;
+
+    if (!req.file) return next(new ErrorHandler("Please add image", 400));
+
+    const file = getDataUri(req.file);
+    const myCloud = await cloudinary.v2.uploader.upload(file.content);
+    const image = {
+        public_id: myCloud.public_id,
+        url: myCloud.secure_url,
+    };
+
+    await Product.create({
+        productName,
+        description,
+        price,
+        quantity,
+        phoneNumber,
+        location,
+        category,
+        images: [image]
+    });
     res.status(201).json({
         success: true,
-        product,
+        message: "Product Create successfully"
     })
 
 });
