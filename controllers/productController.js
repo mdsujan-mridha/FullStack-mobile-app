@@ -4,6 +4,7 @@ const Product = require("../model/productModel");
 const ApiFeatures = require("../utils/ApiFeatures");
 const cloudinary = require("cloudinary");
 const ErrorHandler = require("../utils/ErrorHandler");
+const { getDataUri } = require("../utils/DataUri");
 // create product 
 exports.createProduct = catchAsyncErrors(async (req, res, next) => {
 
