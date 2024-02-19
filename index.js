@@ -19,23 +19,28 @@ const io = new Server(server, {
     }
 });
 
-// io.on("connection", (socket) => {
-//     console.log("user connected", socket.id);
-//     // console.log("user connected",socket);
+io.on("connection", (socket) => {
+    console.log("User Connected", socket.id);
 
 
-// });
 
-// io.on('receive-message', (socket) => {
-//     socket.on('chat message', (msg) => {
-//         io.emit('chat message', msg);
-//     });
-// });
+    socket.on("message", (data) => {
+        console.log(data);
+        io.emit("receive-message", data);
+    });
 
-// io.on("message", (message) => {
-//     console.log(message)
-// })
 
+
+
+    // socket.on("join-room", (room) => {
+    //     socket.join(room);
+    //     console.log(`User joined room ${room}`);
+    // });
+
+    socket.on("disconnect", () => {
+        console.log("User Disconnected", socket.id);
+    });
+});
 
 // handle uncaught Exception 
 process.on("uncaughtException", err => {
@@ -52,7 +57,7 @@ database();
 // config clourinary 
 cloudinary.config({
     cloud_name: process.env.CLOUD_NAME,
-    api_key:process.env.CLOUDINARY_API_KEY,
+    api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_SECRET
 })
 
