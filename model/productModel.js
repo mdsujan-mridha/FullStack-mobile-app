@@ -16,23 +16,13 @@ const productSchema = new mongoose.Schema({
         required: [true, "Please Enter product Price"],
         maxLength: [8, "Price cannot exceed 8 characters"],
     },
-    expireDate:{
-        type:Date,
-        required:[true,"Enter your food expire date"],
+    expireDate: {
+        type: Date,
+        required: [true, "Enter your food expire date"],
         default: Date.now,
     },
-    images: [
-        {
-            public_id: {
-                type: String,
-               
-            },
-            url: {
-                type: String,
-               
-            },
-        },
-    ],
+    images: [{ public_id: String, url: String }],
+    
     category: {
         type: String,
         required: [true, "Please Enter Product Category"],
@@ -54,7 +44,7 @@ const productSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.ObjectId,
         ref: "User",
-        
+
     },
     createdAt: {
         type: Date,

@@ -4,17 +4,19 @@ const Product = require("../model/productModel");
 const ApiFeatures = require("../utils/ApiFeatures");
 const cloudinary = require("cloudinary");
 const ErrorHandler = require("../utils/ErrorHandler");
-const { getDataUri } = require("../utils/DataUri");
+const  {getDataUri}  = require("../utils/dataUri");
+
 // create product 
 exports.createProduct = catchAsyncErrors(async (req, res, next) => {
 
     const { productName, description, price, quantity, phoneNumber, location, category } = req.body;
 
-    console.log(req.file);
+    // console.log(req.body);
 
-    // if (!req.file) return next(new ErrorHandler("Please add image", 400));
-    
-    const file = getDataUri(req.file);
+    if (!req.file) return next(new ErrorHandler("Please add image", 400));
+
+    const file = getDataUri(req.file)
+
     const myCloud = await cloudinary.v2.uploader.upload(file.content);
     const image = {
         public_id: myCloud.public_id,
@@ -35,7 +37,6 @@ exports.createProduct = catchAsyncErrors(async (req, res, next) => {
         success: true,
         message: "Product Create successfully"
     })
-
 });
 
 
