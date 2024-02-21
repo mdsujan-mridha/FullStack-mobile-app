@@ -23,15 +23,8 @@ const userSchema = new mongoose.Schema({
         select: false
     },
     avatar: {
-
-        public_id: {
-            type: String,
-            required: true,
-        },
-        url: {
-            type: String,
-            required: true,
-        },
+        public_id: String,
+        url: String,
     },
     role: {
         type: String,
@@ -46,7 +39,6 @@ const userSchema = new mongoose.Schema({
 });
 
 userSchema.index({ email: 1 }, { unique: true });
-
 
 // save hash password on backend 
 userSchema.pre("save", async function (next) {

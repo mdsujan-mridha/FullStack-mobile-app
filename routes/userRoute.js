@@ -10,14 +10,16 @@ const {
     updateUserRole,
     deleteUser,
     getAllUserAdmin,
-    updateProfile
+    updateProfile,
+    updatePic
 } = require('../controllers/userController');
 const { isAuthenticatedUser, authorizeRoles } = require('../middleware/auth');
+const { singleUpload } = require('../middleware/multer');
 
 
 const router = express.Router();
 // register user 
-router.route("/register").post(register);
+router.route("/register").post(singleUpload, register);
 // login user 
 router.route("/login").post(login);
 // get logged user details
@@ -32,6 +34,8 @@ router.route("/reset-password/:resetToken").put(resetPassword);
 router.route("/update-password").put(isAuthenticatedUser, updatePassword);
 // update profile 
 router.route("/update-profile").put(isAuthenticatedUser, updateProfile);
+// update profile 
+router.route("/update-pic").put(isAuthenticatedUser, singleUpload, updatePic);
 // get all user by admin 
 
 // get all user by admin 
