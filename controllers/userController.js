@@ -5,7 +5,7 @@ const ErrorHandler = require("../utils/ErrorHandler");
 const sendEmail = require("../utils/sendEmail");
 const cloudinary = require('cloudinary');
 const { getDataUri } = require("../utils/ImageData");
-
+const cookieOptions = require("../utils/cookieOption");
 
 // register 
 exports.register = catchAsyncErrors(async (req, res, next) => {
@@ -56,14 +56,16 @@ exports.login = catchAsyncErrors(async (req, res, next) => {
 
 // logout user 
 exports.logout = catchAsyncErrors(async (req, res, next) => {
-    res.cookie("token", "", {
-        ...cookieOptions,
-        expires: new Date(Date.now()),
-    });
-    res.status(200).json({
-        success: true,
-        message: "Logged Out",
-    });
+    res
+        .status(200)
+        .cookie("token", "", {
+            ...cookieOptions,
+            expires: new Date(Date.now()),
+        })
+        .json({
+            success: true,
+            message: "Logged Out Successfully",
+        });
 });
 // get user details 
 exports.getUserDetails = catchAsyncErrors(async (req, res, next) => {
