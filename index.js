@@ -13,7 +13,7 @@ const server = createServer(app);
 
 const io = new Server(server, {
     cors: {
-        
+
         methods: ["GET", "POST"],
         credentials: true,
     }
@@ -64,6 +64,9 @@ server.listen(port, () => {
 });
 
 
+app.get('/', (req, res) => {
+    res.send('Server is working!')
+})
 
 
 // UnHandle Promise Rejection 
