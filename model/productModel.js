@@ -17,12 +17,12 @@ const productSchema = new mongoose.Schema({
         maxLength: [8, "Price cannot exceed 8 characters"],
     },
     expireDate: {
-        type: Date,
+        type: String,
         required: [true, "Enter your food expire date"],
-        default: Date.now,
+
     },
     images: [{ public_id: String, url: String }],
-    
+
     category: {
         type: String,
         required: [true, "Please Enter Product Category"],
