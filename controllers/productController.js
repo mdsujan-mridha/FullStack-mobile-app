@@ -10,7 +10,7 @@ const { getDataUri } = require("../utils/ImageData");
 // create product 
 exports.createProduct = catchAsyncErrors(async (req, res, next) => {
 
-    const { productName, description, price, quantity, phoneNumber, location, category } = req.body;
+    const { productName, description, price, quantity, phoneNumber, location, category, expireDate } = req.body;
 
     // console.log(req.body);
 
@@ -32,6 +32,7 @@ exports.createProduct = catchAsyncErrors(async (req, res, next) => {
         phoneNumber,
         location,
         category,
+        expireDate,
         images: [image]
     });
     res.status(201).json({
