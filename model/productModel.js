@@ -18,7 +18,7 @@ const productSchema = new mongoose.Schema({
     },
     expireDate: {
         type: String,
-        required: [true, "Enter your food expire date"],
+        // required: [true, "Enter your food expire date"],
 
     },
     images: [{ public_id: String, url: String }],
